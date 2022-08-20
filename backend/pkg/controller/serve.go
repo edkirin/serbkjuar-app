@@ -7,10 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 )
-
-var log *logrus.Logger
 
 func corsMiddleware() gin.HandlerFunc {
 	allowHeaders := [12]string{
@@ -57,8 +54,12 @@ func initRouter() *gin.Engine {
 	router.Use(corsMiddleware())
 	router.Static("/data", "./data")
 
-	router.GET("/ping", handlePing)
-	router.GET("/test-db", handleTestDb)
+	routes := router.Group("/api")
+	{
+		routes.GET("/ping", handlePing)
+		routes.GET("/machines/:machineId/external-id", handleGetMachineExternalId)
+	}
+
 	return router
 }
 

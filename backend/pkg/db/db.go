@@ -10,6 +10,8 @@ import (
 	gormLogger "gorm.io/gorm/logger"
 )
 
+var DB *gorm.DB
+
 func InitDB() *gorm.DB {
 	var connectionString = strings.Join([]string{
 		"postgres://",
@@ -35,5 +37,6 @@ func InitDB() *gorm.DB {
 		return nil
 	}
 
+	DB = db
 	return db
 }
