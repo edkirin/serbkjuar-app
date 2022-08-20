@@ -35,7 +35,7 @@ export default class ImageProcessor {
                 );
                 const resultsData = results.map((result) => result.data);
                 for (const result of resultsData) {
-                    this.cache[result.machine_id] = result;
+                    this.cache[result.machineId] = result;
                 }
                 this.processImages(images, resultsData);
                 imagesProcessed += chunk.length;
@@ -47,15 +47,15 @@ export default class ImageProcessor {
 
     processImages(images, resultsData) {
         for (const resultData of resultsData) {
-            const imageInfo = images.find((imageInfo) => imageInfo.machineId === resultData.machine_id);
+            const imageInfo = images.find((imageInfo) => imageInfo.machineId === resultData.machineId);
             if (imageInfo) {
-                imageInfo.externalId = resultData.external_id;
+                imageInfo.externalId = resultData.externalId;
                 addLogMessage(
                     `Processing image ${imageInfo.fileName} with machineId ${imageInfo.machineId} and externalId ${imageInfo.externalId}`
                 );
                 this.processImage(imageInfo);
             } else {
-                console.error(`Unable to find image with machine id ${resultData.machine_id}`);
+                console.error(`Unable to find image with machine id ${resultData.machineId}`);
             }
         }
     }

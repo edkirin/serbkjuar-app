@@ -22,6 +22,7 @@ func corsMiddleware() gin.HandlerFunc {
 		"X-Requested-With",
 		"x-timezone",
 		"Access-Control-Allow-Origin",
+		"Access-Control-Max-Age",
 	}
 
 	return func(c *gin.Context) {
