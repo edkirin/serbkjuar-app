@@ -7,6 +7,7 @@ export default function UploadImagesTab(props) {
         const files = event.target.files;
         if (!files.length) return;
         props.onSelectFiles(files);
+        event.target.value = null;
     };
 
     const handleClear = () => {
