@@ -1,0 +1,7 @@
+/.vscode
+/.idea
+
+/build
+/tmp
+
+/conf/service.yaml
