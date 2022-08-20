@@ -9,6 +9,7 @@ SERVICE_NAME=jwks-provider
 
 
 build:
+	@cd frontend && make build
 	@docker \
 		build . \
 			-t $(CONTAINER_NAME)
