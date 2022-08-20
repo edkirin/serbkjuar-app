@@ -29,14 +29,13 @@ func InitDB() *gorm.DB {
 		logLevel = gormLogger.Info
 	}
 
-	db, err := gorm.Open(postgres.Open(connectionString), &gorm.Config{
+	var err error
+	DB, err = gorm.Open(postgres.Open(connectionString), &gorm.Config{
 		Logger: gormLogger.Default.LogMode(logLevel),
 	})
 	if err != nil {
 		logging.Log.Error("Error connecting to database: " + err.Error())
 		return nil
 	}
-
-	DB = db
-	return db
+	return DB
 }

@@ -1,6 +1,7 @@
 package cfg
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/kelseyhightower/envconfig"
@@ -32,13 +33,13 @@ type configStruct struct {
 	} `yaml:"application"`
 }
 
-const CONFIG_FILE = "conf/service.yaml"
-const ENV_PREFIX = "MYAPP"
+const DEFAULT_CONFIG_FILE = "conf/service.yaml"
+const ENV_PREFIX = "SERBKJUAR"
 
 var Config configStruct
+var log = logrus.New()
 
 func processError(err error) {
-	var log = logrus.New()
 	log.Error("Config file error: " + err.Error())
 	os.Exit(2)
 }
@@ -47,14 +48,15 @@ func readFile(cfgFile string, cfg *configStruct) {
 	f, err := os.Open(cfgFile)
 	if err != nil {
 		processError(err)
+	} else {
+		decoder := yaml.NewDecoder(f)
+		err = decoder.Decode(cfg)
+		if err != nil {
+			processError(err)
+		}
 	}
 	defer f.Close()
-
-	decoder := yaml.NewDecoder(f)
-	err = decoder.Decode(cfg)
-	if err != nil {
-		processError(err)
-	}
+	log.Info("Using config file: " + cfgFile)
 }
 
 func readEnv(cfg *configStruct) {
@@ -65,6 +67,15 @@ func readEnv(cfg *configStruct) {
 }
 
 func Init() {
-	readFile(CONFIG_FILE, &Config)
+	cfgFile := os.Getenv("SERBKJUAR_CONFIG")
+	if cfgFile == "" {
+		cfgFile = DEFAULT_CONFIG_FILE
+	}
+
+	readFile(cfgFile, &Config)
 	readEnv(&Config)
+
+	fmt.Println("--- CONFIG -------------------------------")
+	fmt.Println(Config)
+	fmt.Println("------------------------------------------")
 }

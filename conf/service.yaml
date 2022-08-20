@@ -1,0 +1,23 @@
+site:
+  url: "http://localhost"
+
+# Server configurations
+server:
+  host: ""
+  port: 5000
+  name: "http://localhost:5000"
+
+# Database credentials
+database:
+  host: ""
+  port: 5432
+  name: ""
+  user: ""
+  pass: ""
+
+application:
+  # staticPath - absolute path, can be null to disable static serve
+  staticPath: "/www"
+  logPath: null
+  debugSQL: true
+  isProduction: false

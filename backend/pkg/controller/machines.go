@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"golang-service-template/pkg/db"
 	"golang-service-template/pkg/dto"
 	"net/http"
@@ -27,8 +26,6 @@ func handleGetMachineExternalId(c *gin.Context) {
 		))
 		return
 	}
-
-	fmt.Println(machine)
 
 	c.JSON(
 		http.StatusOK,
