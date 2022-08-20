@@ -1,8 +1,6 @@
 import { machinesApi } from "api";
 import { addLogMessage } from "helpers/util";
 
-const FETCH_CHUNK_SIZE = 5;
-
 const TEXT_CONFIG = {
     size: 30, // px
     topMargin: 5, // px
@@ -14,34 +12,26 @@ export default class ImageProcessor {
 
     fetchExternalIds(images) {
         this.images = images;
-        const chunks = this.sliceIntoChunks(images, FETCH_CHUNK_SIZE);
 
         return new Promise(async (resolve, reject) => {
-            let imagesProcessed = 0;
-            for (const chunk of chunks) {
-                const results = await Promise.all(
-                    chunk.map((imageInfo) => {
-                        const cached = this.cache[imageInfo.machineId];
-                        if (cached) {
-                            return new Promise((resolve, reject) => {
-                                resolve({
-                                    data: cached,
-                                });
-                            });
-                        } else {
-                            return machinesApi.getExternalId(imageInfo.machineId);
-                        }
+            images.forEach((imageInfo) => {
+                machinesApi
+                    .getExternalId(imageInfo.machineId)
+                    .then((response) => {
+                        imageInfo.externalId = response.data.externalId;
+                        addLogMessage(
+                            `Processing image ${imageInfo.fileName} with machineId ${imageInfo.machineId} and externalId ${imageInfo.externalId}`
+                        );
+                        this.processImage(imageInfo);
+
+                        addLogMessage(`Done processing ${imageInfo.fileName} => ${imageInfo.externalId}`);
                     })
-                );
-                const resultsData = results.map((result) => result.data);
-                for (const result of resultsData) {
-                    this.cache[result.machineId] = result;
-                }
-                this.processImages(images, resultsData);
-                imagesProcessed += chunk.length;
-            }
-            addLogMessage(`Done processing ${imagesProcessed} images.`);
-            resolve(this.images);
+                    .catch((err) => {
+                        addLogMessage(`Error: ${err.response.data.details}`);
+                    });
+            });
+
+            resolve();
         });
     }
 
