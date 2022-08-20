@@ -12,7 +12,7 @@ build:
 	@cd frontend && make build
 	@docker \
 		build . \
-			-t $(CONTAINER_NAME)
+		-t $(CONTAINER_NAME)
 
 clean:
 	@echo "> Removing container $(CONTAINER_NAME)"

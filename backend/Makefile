@@ -1,4 +1,4 @@
-EXEC=my-service
+EXEC=serbkjuar
 
 run:
 	@air
