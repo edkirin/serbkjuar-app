@@ -16,6 +16,8 @@ database:
   pass: "db-pass"
 
 application:
+  # staticPath - absolute path, can be null to disable static serve
+  staticPath: "/var/www/public"
   logPath: "/var/log/my-service"  # null to disable logging to file
   debugSQL: true
   isProduction: false

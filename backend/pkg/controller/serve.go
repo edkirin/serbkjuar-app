@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -53,7 +54,12 @@ func initRouter() *gin.Engine {
 
 	router := gin.Default()
 	router.Use(corsMiddleware())
-	router.Static("/data", "./data")
+
+	if cfg.Config.Application.StaticPath != nil {
+		staticPath := *cfg.Config.Application.StaticPath
+		logging.Log.Info(strings.Join([]string{"Using static serve path: ", staticPath}, ""))
+		router.Use(static.Serve("/", static.LocalFile(staticPath, true)))
+	}
 
 	routes := router.Group("/api")
 	{
