@@ -1,9 +1,9 @@
 package logging
 
 import (
-	"golang-service-template/pkg/cfg"
 	"os"
 	"path/filepath"
+	"serbkjuar/pkg/cfg"
 
 	"github.com/sirupsen/logrus"
 )

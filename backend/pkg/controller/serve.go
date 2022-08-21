@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"golang-service-template/pkg/cfg"
-	"golang-service-template/pkg/logging"
 	"net/http"
+	"serbkjuar/pkg/cfg"
+	"serbkjuar/pkg/logging"
 	"strings"
 
 	"github.com/gin-contrib/static"

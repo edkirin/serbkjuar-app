@@ -1,4 +1,4 @@
-module golang-service-template
+module serbkjuar
 
 go 1.19
 

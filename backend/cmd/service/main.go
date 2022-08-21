@@ -1,10 +1,10 @@
 package main
 
 import (
-	"golang-service-template/pkg/cfg"
-	"golang-service-template/pkg/controller"
-	"golang-service-template/pkg/db"
-	"golang-service-template/pkg/logging"
+	"serbkjuar/pkg/cfg"
+	"serbkjuar/pkg/controller"
+	"serbkjuar/pkg/db"
+	"serbkjuar/pkg/logging"
 )
 
 func main() {

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"golang-service-template/pkg/dto"
 	"net/http"
+	"serbkjuar/pkg/dto"
 
 	"github.com/gin-gonic/gin"
 )

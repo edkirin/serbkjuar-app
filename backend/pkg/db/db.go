@@ -1,8 +1,8 @@
 package db
 
 import (
-	"golang-service-template/pkg/cfg"
-	"golang-service-template/pkg/logging"
+	"serbkjuar/pkg/cfg"
+	"serbkjuar/pkg/logging"
 	"strings"
 	"time"
 

@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"golang-service-template/pkg/db"
-	"golang-service-template/pkg/dto"
 	"net/http"
+	"serbkjuar/pkg/db"
+	"serbkjuar/pkg/dto"
 	"strconv"
 	"strings"
 
