@@ -1,14 +1,21 @@
-FROM golang:1.19-alpine
+# stage 1: build application
+FROM golang:1.19-alpine as builder
 
-WORKDIR /app/src
-COPY ./conf/service.yaml /app
+WORKDIR /builder
 COPY ./backend .
-COPY ./frontend/build /www
 
 RUN \
-    go build -v -ldflags "-s -w" -o /app/serbkjuar ./cmd/service/main.go && \
-    rm -rf /app/src && \
-    rm -rf /go && \
-    rm -rf /usr/local/go
+    go mod download && \
+    go mod verify && \
+    go build -v -ldflags "-s -w" -o serbkjuar ./cmd/service/main.go
+
+
+# stage 2: build final container
+FROM alpine:3.16
+
+WORKDIR /app
+COPY ./conf/service.yaml /app
+COPY ./frontend/build /www
+COPY --from=builder /builder/serbkjuar /app
 
 ENTRYPOINT ["/app/serbkjuar"]
