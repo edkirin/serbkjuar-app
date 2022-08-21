@@ -18,7 +18,7 @@ func handleGetMachineExternalId(c *gin.Context) {
 	}
 
 	var machine db.MachineModel
-	result := db.DB.First(&machine, "id = ?", machineId)
+	result := db.Session.First(&machine, "id = ?", machineId)
 	if result.Error != nil {
 		raiseError(c, http.StatusNotFound, strings.Join(
 			[]string{"Machine with id ", c.Param("machineId"), " not found"},
