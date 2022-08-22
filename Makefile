@@ -9,7 +9,9 @@ SERVICE_NAME=jwks-provider
 
 
 build:
-	@cd frontend && make build
+	@cd frontend && \
+		npm install && \
+		make build
 	@docker \
 		build . \
 		-t $(CONTAINER_NAME)
@@ -24,7 +26,7 @@ run:
 	@docker \
 		run \
 		--env-file .env.production \
-		-p $(EXTERNAL_PORT):$(INTERNAL_PORT) \
+		--publish $(EXTERNAL_PORT):$(INTERNAL_PORT) \
 		--name=$(CONTAINER_NAME) \
 		$(IMAGE_NAME) \
-		-d
+		--detach
