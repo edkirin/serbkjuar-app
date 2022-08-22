@@ -2,10 +2,6 @@ IMAGE_NAME=serbkjuar
 CONTAINER_NAME=serbkjuar
 EXTERNAL_PORT=80
 INTERNAL_PORT=5000
-APPLICATION_STATIC_PATH=/www
-
-USER_ID?=$(shell id -u)
-SERVICE_NAME=jwks-provider
 
 
 build:
