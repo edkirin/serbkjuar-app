@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 import ImagesContainer from "components/ImagesContainer";
 import { ImageInfo } from "helpers/ImageProcessor";
+import { ImageContainerSourceEnum } from "helpers/enums";
 
 interface Props {
     onSelectFiles: (files: FileList | null) => Promise<void>;
@@ -30,7 +31,7 @@ export default function UploadImagesTab(props: Props) {
             <Button variant="outlined" component="label" onClick={handleClear} sx={{ marginLeft: "10px" }}>
                 Clear
             </Button>
-            <ImagesContainer images={props.images} source="source" idPrefix="src-" />
+            <ImagesContainer images={props.images} source={ImageContainerSourceEnum.SOURCE} idPrefix="src-" />
         </>
     );
 }

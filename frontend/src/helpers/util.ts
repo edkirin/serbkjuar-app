@@ -1,4 +1,4 @@
-export const createElementId = () => {
+export const createElementId = (): string => {
     var result = "";
     var characters = "abcdefghijklmnopqrstuvwxyz";
     var charactersLength = characters.length;
@@ -8,8 +8,8 @@ export const createElementId = () => {
     return result;
 };
 
-export const addLogMessage = (text) => {
-    const textarea = document.getElementById("log-textarea");
+export const addLogMessage = (text: string) => {
+    const textarea = document.getElementById("log-textarea") as HTMLTextAreaElement;
     textarea.value += `> ${text}\n`;
     textarea.scrollTop = textarea.scrollHeight;
 };

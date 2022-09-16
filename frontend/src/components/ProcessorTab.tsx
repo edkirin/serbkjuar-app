@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import ImagesContainer from "components/ImagesContainer";
 import { createZipFile } from "helpers/FileStore";
 import { ImageInfo } from "helpers/ImageProcessor";
+import { ImageContainerSourceEnum } from "helpers/enums";
+import { DOWNLOAD_FILENAME } from "const";
 
 interface Props {
     onStartProcessing: () => void;
@@ -20,7 +22,7 @@ export default function ProcessorTab(props: Props) {
         if (!props.images) return;
         const zip = await createZipFile(props.images);
         zip.generateAsync({ type: "blob" }).then(function (blob) {
-            saveAs(blob, "serbkjuar-out.zip");
+            saveAs(blob, DOWNLOAD_FILENAME);
         });
     };
 
@@ -38,7 +40,7 @@ export default function ProcessorTab(props: Props) {
             >
                 Download
             </Button>
-            <ImagesContainer images={props.images} source="processed" idPrefix="dest-" />
+            <ImagesContainer images={props.images} source={ImageContainerSourceEnum.PROCESSED} idPrefix="dest-" />
         </>
     );
 }

@@ -3,13 +3,14 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import Typography from "@mui/material/Typography";
 import { ImageInfo } from "helpers/ImageProcessor";
+import { ImageContainerSourceEnum } from "helpers/enums";
 
 const IMAGE_PLACEHOLDER = "/img/dummy-square.jpeg";
 
 interface ImageCardProps {
     imageInfo: ImageInfo;
     idPrefix: string;
-    source: string;
+    source: ImageContainerSourceEnum;
 }
 
 const ImageCard = (props: ImageCardProps) => {
@@ -19,11 +20,11 @@ const ImageCard = (props: ImageCardProps) => {
     let imgClass = "qr-img";
 
     switch (props.source) {
-        case "source":
+        case ImageContainerSourceEnum.SOURCE:
             imgSrc = imageInfo.srcImage.src;
             imgClass += " qr-source-img";
             break;
-        case "processed":
+        case ImageContainerSourceEnum.PROCESSED:
             imgSrc = imageInfo.processedImage || IMAGE_PLACEHOLDER;
             imgClass += " qr-processed-img";
             break;
@@ -42,7 +43,7 @@ const ImageCard = (props: ImageCardProps) => {
 interface Props {
     images: ImageInfo[] | null;
     idPrefix: string;
-    source: string;
+    source: ImageContainerSourceEnum;
 }
 
 export default function ImagesContainer(props: Props) {

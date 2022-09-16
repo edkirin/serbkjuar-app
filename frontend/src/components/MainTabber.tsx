@@ -2,27 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { Tab } from "@mui/material";
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`full-width-tabpanel-${index}`}
-            aria-labelledby={`full-width-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-        </div>
-    );
-}
+import TabPanel from "./TabPanel";
 
 function a11yProps(index: number) {
     return {
