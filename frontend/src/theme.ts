@@ -53,9 +53,6 @@ export const theme = createTheme({
         },
         h6: {
             fontSize: "1.2rem",
-        },
-        body: {
-            fontSize: "1rem",
-        },
+        }
     },
 });

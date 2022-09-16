@@ -3,7 +3,13 @@ import { Box } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { Tab } from "@mui/material";
 
-function TabPanel(props) {
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
     return (
         <div
@@ -18,17 +24,23 @@ function TabPanel(props) {
     );
 }
 
-function a11yProps(index) {
+function a11yProps(index: number) {
     return {
         id: `full-width-tab-${index}`,
         "aria-controls": `full-width-tabpanel-${index}`,
     };
 }
 
-export default function MainTabber(props) {
+interface Props {
+    processingTabContentTabEnabled: boolean;
+    uploadTabContent?: React.ReactNode;
+    processingTabContent?: React.ReactNode;
+}
+
+export default function MainTabber(props: Props) {
     const [tabIndex, setTabIndex] = useState(0);
 
-    const handleTabChange = (event, newValue) => {
+    const handleTabChange = (event: React.SyntheticEvent<Element, Event>, newValue: number) => {
         setTabIndex(newValue);
     };
 

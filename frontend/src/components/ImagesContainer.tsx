@@ -2,10 +2,17 @@ import React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import Typography from "@mui/material/Typography";
+import { ImageInfo } from "helpers/ImageProcessor";
 
 const IMAGE_PLACEHOLDER = "/img/dummy-square.jpeg";
 
-const ImageCard = (props) => {
+interface ImageCardProps {
+    imageInfo: ImageInfo;
+    idPrefix: string;
+    source: string;
+}
+
+const ImageCard = (props: ImageCardProps) => {
     const imageInfo = props.imageInfo;
     const imgId = `${props.idPrefix || ""}${imageInfo.elementId}`;
     let imgSrc;
@@ -32,8 +39,14 @@ const ImageCard = (props) => {
     );
 };
 
-export default function ImagesContainer(props) {
-    let imageCards = "";
+interface Props {
+    images: ImageInfo[] | null;
+    idPrefix: string;
+    source: string;
+}
+
+export default function ImagesContainer(props: Props) {
+    let imageCards = null;
 
     if (props.images) {
         imageCards = props.images.map((imageInfo) => (
@@ -43,7 +56,7 @@ export default function ImagesContainer(props) {
 
     return (
         <ImageList cols={10} className="qr-img-list">
-            {imageCards}
+            {imageCards !== null ? imageCards : ""}
         </ImageList>
     );
 }
