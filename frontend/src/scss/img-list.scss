@@ -1,0 +1,13 @@
+$img-background-color: #d5dde3;
+
+.qr-img-list {
+    .qr-img-list-item {
+        border: 1px solid $img-background-color;
+        background-color: $img-background-color;
+        margin-bottom: 0.5rem;
+        .qr-img-title {
+            text-align: center;
+            padding: 0.2rem 0;
+        }
+    }
+}
