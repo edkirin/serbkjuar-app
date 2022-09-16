@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
 import { Routes, Route } from "react-router-dom";
-import AppHeader from "components/AppHeader";
 import Home from "routes/Home";
+import AppHeader from "components/AppHeader";
 import FileStore from "helpers/FileStore";
 import ImageProcessor from "helpers/ImageProcessor";
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Container } from "@mui/material";
+import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import AppBar from "@mui/material/AppBar";
 import MainTabber from "components/MainTabber";
 import UploadImagesTab from "components/UploadImagesTab";
@@ -61,7 +62,7 @@ export default function Home(props) {
                     id="log-textarea"
                     placeholder="Welcome to serbkjuar"
                 ></textarea>
-            </AppBar>{" "}
+            </AppBar>
         </>
     );
 }

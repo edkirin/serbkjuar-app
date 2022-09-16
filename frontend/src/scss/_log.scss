@@ -1,8 +1,8 @@
 .log-container {
     height: 300px;
+    flex-direction: row !important;
 
     .log {
-        height: 100%;
         width: 100%;;
         background-color: #15232d;
         color: #1fb324;
