@@ -3,13 +3,21 @@ import { saveAs } from "file-saver";
 import Button from "@mui/material/Button";
 import ImagesContainer from "components/ImagesContainer";
 import { createZipFile } from "helpers/FileStore";
+import { ImageInfo } from "helpers/ImageProcessor";
 
-export default function ProcessorTab(props) {
+interface Props {
+    onStartProcessing: () => void;
+    imagesProcessed: boolean;
+    images: ImageInfo[] | null;
+}
+
+export default function ProcessorTab(props: Props) {
     const handleStartProcessingClick = async () => {
         props.onStartProcessing();
     };
 
     const handleDownloadClick = async () => {
+        if (!props.images) return;
         const zip = await createZipFile(props.images);
         zip.generateAsync({ type: "blob" }).then(function (blob) {
             saveAs(blob, "serbkjuar-out.zip");
