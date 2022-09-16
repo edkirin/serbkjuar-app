@@ -1,15 +1,16 @@
 import { createElementId } from "helpers/util";
 import { addLogMessage } from "helpers/util";
 import JSZip from "jszip";
+import { ImageInfo } from "./ImageProcessor";
 
-const uploadFile = (file) => {
-    return new Promise((resolve, reject) => {
+const uploadFile = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
         var reader = new FileReader();
 
         reader.addEventListener(
             "load",
             () => {
-                resolve(reader.result);
+                resolve(reader.result as string);
             },
             false
         );
@@ -23,6 +24,8 @@ const uploadFile = (file) => {
 };
 
 export default class FileStore {
+    images: ImageInfo[];
+
     constructor() {
         this.images = [];
     }
@@ -31,13 +34,13 @@ export default class FileStore {
         this.images
             .filter((imageInfo) => imageInfo.processedImageCanvas != null)
             .forEach((imageInfo) => {
-                imageInfo.processedImageCanvas.remove();
+                imageInfo.processedImageCanvas?.remove();
                 imageInfo.processedImageCanvas = null;
             });
         this.images = [];
     }
 
-    uploadImages(files) {
+    uploadImages(files: FileList | null) {
         return new Promise(async (resolve, reject) => {
             this.clear();
             if (files) {
@@ -45,7 +48,7 @@ export default class FileStore {
                 let fileCount = 0;
 
                 await Promise.all(
-                    filesArray.map(async (file) => {
+                    filesArray.map(async (file: File) => {
                         const fileContent = await uploadFile(file);
                         const machineId = parseInt(this.removeExtension(file.name));
                         if (!isNaN(machineId)) {
@@ -76,7 +79,7 @@ export default class FileStore {
         });
     }
 
-    removeExtension(filename) {
+    removeExtension(filename: string) {
         return filename.substring(0, filename.lastIndexOf(".")) || filename;
     }
 
@@ -85,14 +88,14 @@ export default class FileStore {
     }
 }
 
-export const createZipFile = async (images) => {
+export const createZipFile = async (images: ImageInfo[]) => {
     const zip = new JSZip();
     const filteredImages = images.filter((imageInfo) => imageInfo.processedImageCanvas != null);
     let zippedFilesCount = 0;
 
     for (const imageInfo of filteredImages) {
-        const binaryContent = await new Promise((resolve) => imageInfo.processedImageCanvas.toBlob(resolve));
-        zip.file(imageInfo.fileName, binaryContent, { binary: true });
+        const binaryContent = await new Promise((resolve) => imageInfo.processedImageCanvas?.toBlob(resolve));
+        zip.file(imageInfo.fileName, binaryContent as ArrayBuffer, { binary: true });
         addLogMessage(`Adding ${imageInfo.fileName} to zip file ... done`);
         zippedFilesCount++;
     }
