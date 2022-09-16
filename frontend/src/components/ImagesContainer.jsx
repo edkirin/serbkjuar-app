@@ -1,7 +1,6 @@
 import React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Typography from "@mui/material/Typography";
 
 const IMAGE_PLACEHOLDER = "/img/dummy-square.jpeg";
