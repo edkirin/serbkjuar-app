@@ -14,7 +14,7 @@ function App() {
         <ThemeProvider theme={theme}>
             <AppHeader />
             <Routes>
-                <Route exact path="/" element={<Home fileStore={fileStore} imageProcessor={imageProcessor} />} />
+                <Route path="/" element={<Home fileStore={fileStore} imageProcessor={imageProcessor} />} />
                 {/* <Route path="*" element={<NotFound404 />} /> */}
             </Routes>
         </ThemeProvider>

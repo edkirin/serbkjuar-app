@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
 import AppBar from "@mui/material/AppBar";
 import MainTabber from "components/MainTabber";
 import UploadImagesTab from "components/UploadImagesTab";
 import ProcessorTab from "components/ProcessorTab";
+import FileStore from "helpers/FileStore";
+import ImageProcessor, { ImageInfo } from "helpers/ImageProcessor";
 
-export default function Home(props) {
+interface Props {
+    fileStore: FileStore;
+    imageProcessor: ImageProcessor;
+}
+
+export default function Home(props: Props) {
     const fileStore = props.fileStore;
     const imageProcessor = props.imageProcessor;
     const [processingTabTabEnabled, setProcessingTabEnabled] = useState(false);
-    const [uploadedImages, setUploadedImages] = useState(null);
+    const [uploadedImages, setUploadedImages] = useState<ImageInfo[] | null>(null);
     const [imagesProcessed, setImagesProcessed] = useState(false);
 
-    const onSelectFilesForUpload = async (files) => {
+    const onSelectFilesForUpload = async (files: FileList | null) => {
         fileStore.uploadImages(files).then(() => {
             setUploadedImages(fileStore.images);
             setImagesProcessed(false);
@@ -55,13 +61,7 @@ export default function Home(props) {
                 />
             </Container>
             <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }} className="log-container">
-                <textarea
-                    className="log"
-                    cols="30"
-                    rows="10"
-                    id="log-textarea"
-                    placeholder="Welcome to serbkjuar"
-                ></textarea>
+                <textarea className="log" id="log-textarea" placeholder="Welcome to serbkjuar"></textarea>
             </AppBar>
         </>
     );

@@ -5,7 +5,7 @@ export class ApiBase {}
 
 const commonHeaders = {
     "Content-Type": "application/json",
-    accept: "application/json",
+    Accept: "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Max-Age": 60,
     "x-timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -31,13 +31,3 @@ export const axiosInstance = axios.create({
         ...commonHeaders,
     },
 });
-
-export const errorResponseToStr = (error) => {
-    if ("details" in error.response.data) {
-        return error.response.data.details?.[0] || "";
-    } else if ("detail" in error.response.data) {
-        return error.response.data.detail;
-    } else {
-        return "Internal server error";
-    }
-};
