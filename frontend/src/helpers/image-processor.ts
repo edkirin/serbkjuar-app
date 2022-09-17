@@ -1,6 +1,6 @@
 import { machinesApi } from "api";
 import { addLogMessage } from "helpers/util";
-import { AlignmentEnum, ContentType, PositionEnum, Preset, PRESETS, TextConfig } from "helpers/presets";
+import { AlignmentEnum, ContentType, PositionEnum, Preset, TextConfig } from "helpers/presets";
 
 export interface ImageInfo {
     machineId: number;
@@ -16,9 +16,8 @@ export interface ImageInfo {
 export default class ImageProcessor {
     images: ImageInfo[] = [];
 
-    fetchExternalIds(images: ImageInfo[]) {
+    fetchExternalIds(images: ImageInfo[], preset: Preset) {
         this.images = images;
-        const defaultPreset = PRESETS[0];
 
         return new Promise<void>(async (resolve, reject) => {
             images.forEach((imageInfo) => {
@@ -29,7 +28,7 @@ export default class ImageProcessor {
                         addLogMessage(
                             `Processing image ${imageInfo.fileName} with machineId ${imageInfo.machineId} and externalId ${imageInfo.externalId}`
                         );
-                        this.processImage(imageInfo, defaultPreset);
+                        this.processImage(imageInfo, preset);
 
                         addLogMessage(`Done processing ${imageInfo.fileName} => ${imageInfo.externalId}`);
                     })

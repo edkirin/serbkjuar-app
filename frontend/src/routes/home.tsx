@@ -6,6 +6,7 @@ import UploadImagesTab from "components/upload-images-tab";
 import ProcessorTab from "components/processor-tab";
 import FileStore from "helpers/file-store";
 import ImageProcessor, { ImageInfo } from "helpers/image-processor";
+import { Preset } from "helpers/presets";
 
 interface Props {
     fileStore: FileStore;
@@ -33,8 +34,8 @@ export default function Home(props: Props) {
         setImagesProcessed(false);
     };
 
-    const onStartProcessing = () => {
-        imageProcessor.fetchExternalIds(fileStore.images).then(() => {
+    const onStartProcessing = (preset: Preset) => {
+        imageProcessor.fetchExternalIds(fileStore.images, preset).then(() => {
             setImagesProcessed(true);
         });
     };

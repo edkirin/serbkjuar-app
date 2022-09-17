@@ -1,16 +1,17 @@
-IMAGE_NAME=serbkjuar
 CONTAINER_NAME=serbkjuar
+IMAGE_NAME=$(CONTAINER_NAME):latest
 EXTERNAL_PORT=80
 INTERNAL_PORT=5000
 
 
 build:
+	- @docker image rm $(IMAGE_NAME) --force
 	@cd frontend && \
 		npm install && \
 		make build
 	@docker \
 		build . \
-		-t $(CONTAINER_NAME)
+		-t $(IMAGE_NAME)
 
 clean:
 	@echo "> Removing container $(CONTAINER_NAME)"
@@ -26,3 +27,7 @@ run:
 		--name=$(CONTAINER_NAME) \
 		$(IMAGE_NAME) \
 		--detach
+
+push:
+	@docker tag $(IMAGE_NAME) edkirin/$(IMAGE_NAME)
+	@docker push edkirin/$(IMAGE_NAME)
