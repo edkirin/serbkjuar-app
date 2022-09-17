@@ -1,5 +1,14 @@
 import { machinesApi } from "api";
 import { addLogMessage } from "helpers/util";
+import {
+    AlignmentEnum,
+    ContentType,
+    PositionEnum,
+    Preset,
+    PresetContentConfig,
+    PRESETS,
+    TextConfig,
+} from "helpers/presets";
 
 export interface ImageInfo {
     machineId: number;
@@ -12,23 +21,12 @@ export interface ImageInfo {
     processedImageCanvas: HTMLCanvasElement | null;
 }
 
-interface TextConfig {
-    size: number; // px
-    topMargin: number; // px
-    color: string;
-}
-
-const TEXT_CONFIG: TextConfig = {
-    size: 30, // px
-    topMargin: 5, // px
-    color: "black",
-};
-
 export default class ImageProcessor {
     images: ImageInfo[] = [];
 
     fetchExternalIds(images: ImageInfo[]) {
         this.images = images;
+        const defaultPreset = PRESETS[1];
 
         return new Promise<void>(async (resolve, reject) => {
             images.forEach((imageInfo) => {
@@ -39,7 +37,7 @@ export default class ImageProcessor {
                         addLogMessage(
                             `Processing image ${imageInfo.fileName} with machineId ${imageInfo.machineId} and externalId ${imageInfo.externalId}`
                         );
-                        this.processImage(imageInfo);
+                        this.processImage(imageInfo, defaultPreset);
 
                         addLogMessage(`Done processing ${imageInfo.fileName} => ${imageInfo.externalId}`);
                     })
@@ -52,45 +50,100 @@ export default class ImageProcessor {
         });
     }
 
-    processImage(imageInfo: ImageInfo) {
-        const createCanvas = (width: number, height: number): HTMLCanvasElement => {
-            let canvas = document.createElement("canvas");
-            canvas.setAttribute("width", `${width}px`);
-            canvas.setAttribute("height", `${height}px`);
-            return canvas;
-        };
-
-        const drawTextToCanvas = (
-            context: CanvasRenderingContext2D | null,
-            sourceImg: HTMLImageElement,
-            textConfig: TextConfig,
-            text: string
-        ) => {
-            if (!context) return;
-            context.drawImage(sourceImg, 0, 0);
-            context.font = `${textConfig.size}px Arial`;
-            context.fillStyle = textConfig.color;
-            context.textAlign = "center";
-            context.fillText(text, context.canvas.width / 2, textConfig.size + textConfig.topMargin);
-        };
-
-        const copyCanvasToDestImg = (canvas: HTMLCanvasElement, destImg: HTMLImageElement): string => {
-            const canvasUrl = canvas.toDataURL();
-            destImg.setAttribute("src", canvasUrl);
-            return canvasUrl;
-        };
-
-        const srcImage = imageInfo.srcImage;
-        const imgWidth = srcImage.width;
-        const imgHeight = srcImage.height;
-        const destImage = document.getElementById(`dest-${imageInfo.elementId}`);
-
-        if (destImage && imageInfo.externalId) {
-            const canvas = createCanvas(imgWidth, imgHeight);
-            const ctx = canvas.getContext("2d");
-            drawTextToCanvas(ctx, srcImage, TEXT_CONFIG, imageInfo.externalId);
-            imageInfo.processedImage = copyCanvasToDestImg(canvas, destImage as HTMLImageElement);
-            imageInfo.processedImageCanvas = canvas;
-        }
+    processImage(imageInfo: ImageInfo, preset: Preset) {
+        const composer = new ImageComposer(imageInfo, preset);
+        composer.createImage();
     }
+}
+
+class ImageComposer {
+    imageInfo: ImageInfo;
+    preset: Preset;
+    srcImageWidth: number;
+    srcImageHeight: number;
+    destImageWidth: number;
+    destImageHeight: number;
+    canvas: HTMLCanvasElement;
+    canvasCtx: CanvasRenderingContext2D;
+
+    constructor(imageInfo: ImageInfo, preset: Preset) {
+        this.imageInfo = imageInfo;
+        this.preset = preset;
+        this.srcImageWidth = imageInfo.srcImage.width;
+        this.srcImageHeight = imageInfo.srcImage.height;
+        this.destImageWidth = this.srcImageWidth;
+        this.destImageHeight = this.srcImageHeight;
+        this.canvas = this.createCanvas(this.srcImageWidth, this.srcImageHeight);
+        this.canvasCtx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
+    }
+
+    createCanvas = (width: number, height: number): HTMLCanvasElement => {
+        let canvas = document.createElement("canvas");
+        canvas.setAttribute("width", `${width}px`);
+        canvas.setAttribute("height", `${height}px`);
+        return canvas;
+    };
+
+    drawSourceImageToCanvas = (sourceImg: HTMLImageElement) => {
+        this.canvasCtx.drawImage(sourceImg, 0, 0);
+    };
+
+    copyCanvasToDestImg = (destImg: HTMLImageElement): string => {
+        const canvasUrl = this.canvas.toDataURL();
+        destImg.setAttribute("src", canvasUrl);
+        return canvasUrl;
+    };
+
+    drawTextToCanvas = (text: string, textConfig: TextConfig) => {
+        this.canvasCtx.font = `${textConfig.fontSize}px Arial`;
+        this.canvasCtx.fillStyle = textConfig.color;
+        this.canvasCtx.textAlign = textConfig.align;
+
+        let textOffsetX;
+        let textOffsetY;
+        switch (textConfig.align) {
+            case AlignmentEnum.CENTER:
+                textOffsetX = this.canvasCtx.canvas.width / 2;
+                break;
+            case AlignmentEnum.RIGHT:
+                textOffsetX = this.canvasCtx.canvas.width - textConfig.marginOffsetX;
+                break;
+            default:
+                textOffsetX = textConfig.marginOffsetX;
+                break;
+        }
+        if (textConfig.position === PositionEnum.TOP) {
+            this.canvasCtx.textBaseline = "top";
+            textOffsetY = textConfig.marginOffsetY;
+        } else {
+            this.canvasCtx.textBaseline = "bottom";
+            textOffsetY = this.destImageHeight - textConfig.marginOffsetY;
+        }
+        this.canvasCtx.fillText(text, textOffsetX, textOffsetY);
+    };
+
+    createImage = () => {
+        this.drawSourceImageToCanvas(this.imageInfo.srcImage);
+
+        this.preset.contents.forEach((content) => {
+            let text;
+            switch (content.type) {
+                case ContentType.MACHINE_EXTERNAL_ID:
+                    if (!this.imageInfo.externalId) return;
+                    text = this.imageInfo.externalId;
+                    break;
+                case ContentType.STATIC:
+                    if (!content.value) return;
+                    text = content.value;
+                    break;
+                default:
+                    return;
+            }
+            this.drawTextToCanvas(text, content.textConfig);
+        });
+
+        const destImage = document.getElementById(`dest-${this.imageInfo.elementId}`);
+        this.imageInfo.processedImage = this.copyCanvasToDestImg(destImage as HTMLImageElement);
+        this.imageInfo.processedImageCanvas = this.canvas;
+    };
 }
