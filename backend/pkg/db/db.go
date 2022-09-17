@@ -25,7 +25,7 @@ func InitDB() *gorm.DB {
 		cfg.Config.Database.Name,
 		"?sslmode=disable",
 	}, "")
-	logging.Log.Info("Using database connection string: " + connectionString)
+	logging.Info("Using database connection string: " + connectionString)
 
 	var logLevel = gormLogger.Silent
 	if cfg.Config.Application.DebugSQL {
@@ -37,7 +37,7 @@ func InitDB() *gorm.DB {
 		Logger: gormLogger.Default.LogMode(logLevel),
 	})
 	if err != nil {
-		logging.Log.Error("Error connecting to database: " + err.Error())
+		logging.Error("Error connecting to database: " + err.Error())
 		return nil
 	}
 

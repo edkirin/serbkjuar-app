@@ -26,10 +26,12 @@ type configStruct struct {
 		Password string `yaml:"pass"`
 	} `yaml:"database"`
 	Application struct {
-		StaticPath   *string `yaml:"staticPath"`
-		LogPath      *string `yaml:"logPath"`
-		DebugSQL     bool    `yaml:"debugSQL"`
-		IsProduction bool    `yaml:"isProduction"`
+		StaticPath      *string `yaml:"staticPath"`
+		LogPath         *string `yaml:"logPath"`
+		DebugSQL        bool    `yaml:"debugSQL"`
+		IsProduction    bool    `yaml:"isProduction"`
+		EpiloggToken    *string `yaml:"epiloggToken"`
+		EpiloggClientId *string `yaml:"epiloggClientId"`
 	} `yaml:"application"`
 }
 

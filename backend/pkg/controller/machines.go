@@ -1,11 +1,12 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"serbkjuar/pkg/db"
 	"serbkjuar/pkg/dto"
+	"serbkjuar/pkg/logging"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,11 +21,13 @@ func handleGetMachineExternalId(c *gin.Context) {
 	var machine db.MachineModel
 	result := db.Session.First(&machine, "id = ?", machineId)
 	if result.Error != nil {
-		raiseError(c, http.StatusNotFound, strings.Join(
-			[]string{"Machine with id ", c.Param("machineId"), " not found"},
-			"",
-		))
+		message := fmt.Sprintf("Machine with id %d not found", machineId)
+		logging.Error(message)
+		raiseError(c, http.StatusNotFound, message)
 		return
+	} else {
+		message := fmt.Sprintf("Found external_id %s for machine_id %d", machine.ExternalId, machine.Id)
+		logging.Info(message)
 	}
 
 	c.JSON(

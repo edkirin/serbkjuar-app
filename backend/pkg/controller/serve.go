@@ -57,7 +57,7 @@ func initRouter() *gin.Engine {
 
 	if cfg.Config.Application.StaticPath != nil {
 		staticPath := *cfg.Config.Application.StaticPath
-		logging.Log.Info(strings.Join([]string{"Using static serve path: ", staticPath}, ""))
+		logging.Info(strings.Join([]string{"Using static serve path: ", staticPath}, ""))
 		router.Use(static.Serve("/", static.LocalFile(staticPath, true)))
 	}
 
@@ -74,6 +74,6 @@ func Serve() {
 	serverAddr := strings.Join([]string{cfg.Config.Server.Host, cfg.Config.Server.Port}, ":")
 	router := initRouter()
 
-	logging.Log.Info(strings.Join([]string{"Application started on ", serverAddr}, ""))
+	logging.Info(strings.Join([]string{"Application started on ", serverAddr}, ""))
 	router.Run(serverAddr)
 }

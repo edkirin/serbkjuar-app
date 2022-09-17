@@ -21,3 +21,5 @@ application:
   logPath: "/var/log/my-service"  # null to disable logging to file
   debugSQL: true
   isProduction: false
+  epiloggToken: null
+  epiloggClientId: null
