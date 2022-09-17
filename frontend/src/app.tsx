@@ -1,10 +1,10 @@
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
 import { Routes, Route } from "react-router-dom";
-import Home from "routes/Home";
-import AppHeader from "components/AppHeader";
-import FileStore from "helpers/FileStore";
-import ImageProcessor from "helpers/ImageProcessor";
+import Home from "routes/home";
+import AppHeader from "components/app-header";
+import FileStore from "helpers/file-store";
+import ImageProcessor from "helpers/image-processor";
 
 function App() {
     const fileStore = new FileStore();

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Container from "@mui/material/Container";
 import AppBar from "@mui/material/AppBar";
-import MainTabber from "components/MainTabber";
-import UploadImagesTab from "components/UploadImagesTab";
-import ProcessorTab from "components/ProcessorTab";
-import FileStore from "helpers/FileStore";
-import ImageProcessor, { ImageInfo } from "helpers/ImageProcessor";
+import MainTabber from "components/main-tabber";
+import UploadImagesTab from "components/upload-images-tab";
+import ProcessorTab from "components/processor-tab";
+import FileStore from "helpers/file-store";
+import ImageProcessor, { ImageInfo } from "helpers/image-processor";
 
 interface Props {
     fileStore: FileStore;

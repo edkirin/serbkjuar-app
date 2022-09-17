@@ -1,7 +1,7 @@
 import { createElementId } from "helpers/util";
 import { addLogMessage } from "helpers/util";
 import JSZip from "jszip";
-import { ImageInfo } from "./ImageProcessor";
+import { ImageInfo } from "./image-processor";
 
 const uploadFile = (file: File) => {
     return new Promise<string>((resolve, reject) => {

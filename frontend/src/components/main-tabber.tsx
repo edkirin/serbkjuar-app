@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { Tab } from "@mui/material";
-import TabPanel from "./TabPanel";
+import TabPanel from "components/tab-panel";
 
 function a11yProps(index: number) {
     return {

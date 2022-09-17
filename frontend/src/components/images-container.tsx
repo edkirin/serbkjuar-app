@@ -2,7 +2,7 @@ import React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import Typography from "@mui/material/Typography";
-import { ImageInfo } from "helpers/ImageProcessor";
+import { ImageInfo } from "helpers/image-processor";
 import { ImageContainerSourceEnum } from "helpers/enums";
 
 const IMAGE_PLACEHOLDER = "/img/dummy-square.jpeg";

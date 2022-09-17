@@ -1,1 +1,1 @@
-export { machinesApi } from "./Machines";
+export { machinesApi } from "./machines";

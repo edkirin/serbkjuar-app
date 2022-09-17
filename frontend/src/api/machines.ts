@@ -1,4 +1,4 @@
-import { axiosInstance, ApiBase } from "./Common";
+import { axiosInstance, ApiBase } from "./common";
 
 class MachinesApi extends ApiBase {
     getExternalId = async (machineId: number) => {

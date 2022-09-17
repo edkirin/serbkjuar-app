@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import ImagesContainer from "components/ImagesContainer";
-import { ImageInfo } from "helpers/ImageProcessor";
+import ImagesContainer from "components/images-container";
+import { ImageInfo } from "helpers/image-processor";
 import { ImageContainerSourceEnum } from "helpers/enums";
 
 interface Props {

@@ -1,9 +1,9 @@
 import React from "react";
 import { saveAs } from "file-saver";
 import Button from "@mui/material/Button";
-import ImagesContainer from "components/ImagesContainer";
-import { createZipFile } from "helpers/FileStore";
-import { ImageInfo } from "helpers/ImageProcessor";
+import ImagesContainer from "components/images-container";
+import { createZipFile } from "helpers/file-store";
+import { ImageInfo } from "helpers/image-processor";
 import { ImageContainerSourceEnum } from "helpers/enums";
 import { DOWNLOAD_FILENAME } from "const";
 
