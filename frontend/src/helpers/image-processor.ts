@@ -1,14 +1,6 @@
 import { machinesApi } from "api";
 import { addLogMessage } from "helpers/util";
-import {
-    AlignmentEnum,
-    ContentType,
-    PositionEnum,
-    Preset,
-    PresetContentConfig,
-    PRESETS,
-    TextConfig,
-} from "helpers/presets";
+import { AlignmentEnum, ContentType, PositionEnum, Preset, PRESETS, TextConfig } from "helpers/presets";
 
 export interface ImageInfo {
     machineId: number;
@@ -26,7 +18,7 @@ export default class ImageProcessor {
 
     fetchExternalIds(images: ImageInfo[]) {
         this.images = images;
-        const defaultPreset = PRESETS[1];
+        const defaultPreset = PRESETS[0];
 
         return new Promise<void>(async (resolve, reject) => {
             images.forEach((imageInfo) => {
@@ -59,8 +51,6 @@ export default class ImageProcessor {
 class ImageComposer {
     imageInfo: ImageInfo;
     preset: Preset;
-    srcImageWidth: number;
-    srcImageHeight: number;
     destImageWidth: number;
     destImageHeight: number;
     canvas: HTMLCanvasElement;
@@ -69,13 +59,18 @@ class ImageComposer {
     constructor(imageInfo: ImageInfo, preset: Preset) {
         this.imageInfo = imageInfo;
         this.preset = preset;
-        this.srcImageWidth = imageInfo.srcImage.width;
-        this.srcImageHeight = imageInfo.srcImage.height;
-        this.destImageWidth = this.srcImageWidth;
-        this.destImageHeight = this.srcImageHeight;
-        this.canvas = this.createCanvas(this.srcImageWidth, this.srcImageHeight);
+        this.destImageWidth = imageInfo.srcImage.width;
+        this.destImageHeight = imageInfo.srcImage.height * preset.heightRatio;
+
+        this.canvas = this.createCanvas(this.destImageWidth, this.destImageHeight);
         this.canvasCtx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     }
+
+    initCanvas = () => {
+        this.canvasCtx.rect(0, 0, this.destImageWidth, this.destImageHeight);
+        this.canvasCtx.fillStyle = this.preset.backgroundColor;
+        this.canvasCtx.fill();
+    };
 
     createCanvas = (width: number, height: number): HTMLCanvasElement => {
         let canvas = document.createElement("canvas");
@@ -85,7 +80,15 @@ class ImageComposer {
     };
 
     drawSourceImageToCanvas = (sourceImg: HTMLImageElement) => {
-        this.canvasCtx.drawImage(sourceImg, 0, 0);
+        const srcX = this.preset.srcImageBoundingRect.left;
+        const srcY = this.preset.srcImageBoundingRect.top;
+        const srcW = this.preset.srcImageBoundingRect.right - this.preset.srcImageBoundingRect.left;
+        const srcH = this.preset.srcImageBoundingRect.bottom - this.preset.srcImageBoundingRect.top;
+        const destW = srcW;
+        const destH = srcH;
+        const destX = (this.destImageWidth - destW) / 2;
+        const destY = (this.destImageHeight - destH) / 2;
+        this.canvasCtx.drawImage(sourceImg, srcX, srcY, srcW, srcH, destX, destY, destW, destH);
     };
 
     copyCanvasToDestImg = (destImg: HTMLImageElement): string => {
@@ -123,6 +126,7 @@ class ImageComposer {
     };
 
     createImage = () => {
+        this.initCanvas();
         this.drawSourceImageToCanvas(this.imageInfo.srcImage);
 
         this.preset.contents.forEach((content) => {
