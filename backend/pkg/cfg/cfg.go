@@ -23,7 +23,7 @@ type configStruct struct {
 		Port     string `yaml:"port"`
 		Name     string `yaml:"name"`
 		Username string `yaml:"user"`
-		Password string `yaml:"pass"`
+		Password string `yaml:"pass" json:"-"`
 	} `yaml:"database"`
 	Application struct {
 		StaticPath      *string `yaml:"staticPath"`

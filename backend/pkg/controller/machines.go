@@ -22,7 +22,7 @@ func handleGetMachineExternalId(c *gin.Context) {
 	result := db.Session.First(&machine, "id = ?", machineId)
 	if result.Error != nil {
 		message := fmt.Sprintf("Machine with id %d not found", machineId)
-		logging.Error(message)
+		logging.Error(fmt.Sprintf("%s: %v", message, result.Error))
 		raiseError(c, http.StatusNotFound, message)
 		return
 	} else {

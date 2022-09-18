@@ -1,6 +1,8 @@
 package logging
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"serbkjuar/pkg/cfg"
@@ -62,7 +64,14 @@ func Init() {
 		Epilogg = &EpiloggAPIClient{
 			Token:    *cfg.Config.Application.EpiloggToken,
 			ClientId: *cfg.Config.Application.EpiloggClientId,
-			Category: "test",
+			Category: "log",
 		}
+	}
+
+	Info("Start logging")
+
+	configJson, err := json.Marshal(cfg.Config)
+	if err == nil {
+		Info(fmt.Sprintf("Using config: %s", configJson))
 	}
 }

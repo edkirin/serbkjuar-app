@@ -3,6 +3,7 @@ package db
 import (
 	"serbkjuar/pkg/cfg"
 	"serbkjuar/pkg/logging"
+	"strconv"
 	"strings"
 	"time"
 
@@ -12,6 +13,7 @@ import (
 )
 
 const CONNECTION_MAX_IDLE_TIME = time.Minute * 1
+const DB_CONNECTION_TIMEOUT = 5
 
 var Session *gorm.DB
 
@@ -24,6 +26,7 @@ func InitDB() *gorm.DB {
 		cfg.Config.Database.Port, "/",
 		cfg.Config.Database.Name,
 		"?sslmode=disable",
+		"&connect_timeout=", strconv.Itoa(DB_CONNECTION_TIMEOUT),
 	}, "")
 	logging.Info("Using database connection string: " + connectionString)
 
