@@ -1,7 +1,8 @@
 CONTAINER_NAME=serbkjuar
-IMAGE_NAME=$(CONTAINER_NAME):latest
+IMAGE_NAME=serbkjuar
 EXTERNAL_PORT=80
 INTERNAL_PORT=5000
+VERSION_TAG=$$(date +%Y%m%d-%H%M%S)
 
 
 build:
@@ -17,7 +18,12 @@ clean:
 	@echo "> Removing container $(CONTAINER_NAME)"
 	- @docker rm $(CONTAINER_NAME)
 	@echo "> Removing image $(CONTAINER_NAME)"
-	- @docker image rm $(CONTAINER_NAME)
+	- @docker \
+		images -a \
+		| grep "$(IMAGE_NAME)" \
+		| awk '{print $$3}' \
+		| xargs docker image rm --force \
+		&>/dev/null
 
 run:
 	@docker \
@@ -29,5 +35,8 @@ run:
 		--detach
 
 push:
-	@docker tag $(IMAGE_NAME) edkirin/$(IMAGE_NAME)
-	@docker push edkirin/$(IMAGE_NAME)
+	@docker tag \
+		$(CONTAINER_NAME):latest \
+		145246616467.dkr.ecr.eu-west-1.amazonaws.com/ekirin-$(CONTAINER_NAME):$(VERSION_TAG)
+	@docker push \
+		145246616467.dkr.ecr.eu-west-1.amazonaws.com/ekirin-$(CONTAINER_NAME):$(VERSION_TAG)
