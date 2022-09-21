@@ -1,3 +1,5 @@
+ARG USER=1000
+
 # stage 1: build application
 FROM golang:1.19-alpine as builder
 
@@ -12,6 +14,8 @@ RUN \
 
 # stage 2: build final container
 FROM alpine:3.16
+
+USER $USER
 
 WORKDIR /app
 COPY ./conf/service.yaml /app
