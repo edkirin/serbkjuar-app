@@ -7,9 +7,6 @@ VERSION_TAG=$$(date +%Y%m%d-%H%M%S)
 
 build:
 	- @docker image rm $(IMAGE_NAME) --force
-	@cd frontend && \
-		npm install && \
-		make build
 	@docker \
 		build . \
 		-t $(IMAGE_NAME)
