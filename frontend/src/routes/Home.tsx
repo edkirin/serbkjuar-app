@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Container from "@mui/material/Container";
-import AppBar from "@mui/material/AppBar";
-import { MainTabber, ProcessorTab, UploadImagesTab } from "components";
+import { Log, MainTabber, ProcessorTab, UploadImagesTab } from "components";
 import FileStore from "helpers/file-store";
 import ImageProcessor, { ImageInfo } from "helpers/image-processor";
 import { Preset } from "helpers/presets";
@@ -59,9 +58,7 @@ function Home(props: Props) {
                     processingTabContentTabEnabled={processingTabTabEnabled}
                 />
             </Container>
-            <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }} className="log-container">
-                <textarea className="log" id="log-textarea" placeholder="Welcome to serbkjuar"></textarea>
-            </AppBar>
+            <Log />
         </>
     );
 }

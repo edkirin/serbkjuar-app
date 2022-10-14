@@ -9,3 +9,10 @@
         border: none;
     }
 }
+
+.show-hide-log-button {
+    position: absolute !important;
+    z-index: 9999 !important;
+    right: 20px;
+    bottom: 20px;
+}
