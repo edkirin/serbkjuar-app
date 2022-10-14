@@ -1,12 +1,18 @@
 import AppBar from "@mui/material/AppBar";
 import Fab from "@mui/material/Fab";
+import { localStore } from "helpers/store";
 import { useState } from "react";
 
 const Log = () => {
-    const [logVisible, setLogVisible] = useState(true);
+    const [logVisible, setLogVisible] = useState(localStore.logVisible);
 
     const showHideButtonLabel = logVisible ? "Hide log" : "Show log";
     const containerDisplayValue = logVisible ? "" : "none";
+
+    const toggleLogVisible = () => {
+        setLogVisible(!logVisible);
+        localStore.logVisible = !logVisible;
+    };
 
     return (
         <>
@@ -15,7 +21,7 @@ const Log = () => {
                 size="small"
                 color="primary"
                 className="show-hide-log-button"
-                onClick={() => setLogVisible(!logVisible)}
+                onClick={toggleLogVisible}
             >
                 {showHideButtonLabel}
             </Fab>
