@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
-import { Tabs } from "@mui/material";
-import { Tab } from "@mui/material";
-import TabPanel from "components/tab-panel";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import { TabPanel } from "components";
 
 function a11yProps(index: number) {
     return {
@@ -17,7 +17,7 @@ interface Props {
     processingTabContent?: React.ReactNode;
 }
 
-export default function MainTabber(props: Props) {
+const MainTabber = (props: Props) => {
     const [tabIndex, setTabIndex] = useState(0);
 
     const handleTabChange = (event: React.SyntheticEvent<Element, Event>, newValue: number) => {
@@ -40,4 +40,6 @@ export default function MainTabber(props: Props) {
             </TabPanel>
         </Box>
     );
-}
+};
+
+export { MainTabber };

@@ -1,7 +1,8 @@
-import { Container, Typography } from "@mui/material";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
-export default function AppHeader() {
+const AppHeader = () => {
     return (
         <>
             <Container maxWidth={false} className="app-header">
@@ -12,4 +13,6 @@ export default function AppHeader() {
             </Container>
         </>
     );
-}
+};
+
+export { AppHeader };

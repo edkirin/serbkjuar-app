@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 
 const PRIMARY_COLOR = "#0d6efd";
 const SECONDARY_COLOR = "#6c757d";
@@ -53,6 +53,6 @@ export const theme = createTheme({
         },
         h6: {
             fontSize: "1.2rem",
-        }
+        },
     },
 });

@@ -1,5 +1,4 @@
-import { createElementId } from "helpers/util";
-import { addLogMessage } from "helpers/util";
+import { createElementId, addLogMessage } from "helpers/util";
 import JSZip from "jszip";
 import { ImageInfo } from "./image-processor";
 

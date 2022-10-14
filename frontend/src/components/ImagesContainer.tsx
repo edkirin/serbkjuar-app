@@ -46,7 +46,7 @@ interface Props {
     source: ImageContainerSourceEnum;
 }
 
-export default function ImagesContainer(props: Props) {
+const ImagesContainer = (props: Props) => {
     let imageCards = null;
 
     if (props.images) {
@@ -60,4 +60,6 @@ export default function ImagesContainer(props: Props) {
             {imageCards !== null ? imageCards : ""}
         </ImageList>
     );
-}
+};
+
+export { ImagesContainer };
