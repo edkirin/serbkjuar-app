@@ -1,9 +1,7 @@
 import { useState } from "react";
 import Container from "@mui/material/Container";
 import AppBar from "@mui/material/AppBar";
-import MainTabber from "components/main-tabber";
-import UploadImagesTab from "components/upload-images-tab";
-import ProcessorTab from "components/processor-tab";
+import { MainTabber, ProcessorTab, UploadImagesTab } from "components";
 import FileStore from "helpers/file-store";
 import ImageProcessor, { ImageInfo } from "helpers/image-processor";
 import { Preset } from "helpers/presets";
@@ -13,7 +11,7 @@ interface Props {
     imageProcessor: ImageProcessor;
 }
 
-export default function Home(props: Props) {
+function Home(props: Props) {
     const fileStore = props.fileStore;
     const imageProcessor = props.imageProcessor;
     const [processingTabTabEnabled, setProcessingTabEnabled] = useState(false);
@@ -67,3 +65,5 @@ export default function Home(props: Props) {
         </>
     );
 }
+
+export { Home };

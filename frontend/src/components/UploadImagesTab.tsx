@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import ImagesContainer from "components/images-container";
+import { ImagesContainer } from "components";
 import { ImageInfo } from "helpers/image-processor";
 import { ImageContainerSourceEnum } from "helpers/enums";
 
@@ -10,7 +10,7 @@ interface Props {
     images: ImageInfo[] | null;
 }
 
-export default function UploadImagesTab(props: Props) {
+const UploadImagesTab = (props: Props) => {
     const handleFileSelect = (event: React.FormEvent<HTMLInputElement>) => {
         const files = event.currentTarget.files;
         if (!files?.length) return;
@@ -34,4 +34,6 @@ export default function UploadImagesTab(props: Props) {
             <ImagesContainer images={props.images} source={ImageContainerSourceEnum.SOURCE} idPrefix="src-" />
         </>
     );
-}
+};
+
+export { UploadImagesTab };

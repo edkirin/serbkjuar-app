@@ -1,12 +1,12 @@
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import { Routes, Route } from "react-router-dom";
-import Home from "routes/home";
-import AppHeader from "components/app-header";
+import { Home } from "routes";
+import { AppHeader } from "components";
 import FileStore from "helpers/file-store";
 import ImageProcessor from "helpers/image-processor";
 
-function App() {
+const App = () => {
     const fileStore = new FileStore();
     const imageProcessor = new ImageProcessor();
 
@@ -19,6 +19,6 @@ function App() {
             </Routes>
         </ThemeProvider>
     );
-}
+};
 
 export default App;

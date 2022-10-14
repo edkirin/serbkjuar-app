@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { saveAs } from "file-saver";
 import Button from "@mui/material/Button";
-import ImagesContainer from "components/images-container";
+import { ImagesContainer } from "components";
 import { createZipFile } from "helpers/file-store";
 import { ImageInfo } from "helpers/image-processor";
 import { ImageContainerSourceEnum } from "helpers/enums";
@@ -19,7 +19,7 @@ interface Props {
     images: ImageInfo[] | null;
 }
 
-export default function ProcessorTab(props: Props) {
+const ProcessorTab = (props: Props) => {
     const [presetIndex, setPresetIndex] = useState<number>(0);
 
     const handlePresetChange = (event: SelectChangeEvent) => {
@@ -79,4 +79,6 @@ export default function ProcessorTab(props: Props) {
             <ImagesContainer images={props.images} source={ImageContainerSourceEnum.PROCESSED} idPrefix="dest-" />
         </>
     );
-}
+};
+
+export { ProcessorTab };
