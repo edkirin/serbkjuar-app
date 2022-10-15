@@ -1,13 +1,12 @@
 import AppBar from "@mui/material/AppBar";
 import Fab from "@mui/material/Fab";
+import Slide from "@mui/material/Slide";
 import { localStore } from "helpers/store";
 import { useState } from "react";
 
 const Log = () => {
     const [logVisible, setLogVisible] = useState(localStore.logVisible);
-
     const showHideButtonLabel = logVisible ? "Hide log" : "Show log";
-    const containerDisplayValue = logVisible ? "" : "none";
 
     const toggleLogVisible = () => {
         setLogVisible(!logVisible);
@@ -25,14 +24,11 @@ const Log = () => {
             >
                 {showHideButtonLabel}
             </Fab>
-            <AppBar
-                position="fixed"
-                color="primary"
-                sx={{ top: "auto", bottom: 0, display: containerDisplayValue }}
-                className="log-container"
-            >
-                <textarea className="log" id="log-textarea" placeholder="Welcome to serbkjuar"></textarea>
-            </AppBar>
+            <Slide direction="up" in={logVisible} appear={false}>
+                <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }} className="log-container">
+                    <textarea className="log" id="log-textarea" placeholder="Welcome to serbkjuar"></textarea>
+                </AppBar>
+            </Slide>
         </>
     );
 };
